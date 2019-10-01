@@ -48,11 +48,16 @@ public class StepDefATM {
     public void i_withdraw_from_atm(double amount) throws NotEnoughBalanceException {
         atm.withdraw(amount);
     }
-
+    @When("I deposit (.*) exists")
+    public void i_deposit_from_atm(double amount) throws NotEnoughBalanceException {
+        atm.deposit(amount);
+    }
     @When("I overdraw (.*) from ATM")
     public void i_withdraw_from_atm_more_than_balance(double amount) throws NotEnoughBalanceException {
-        assertThrows(NotEnoughBalanceException.class,
-                () -> atm.withdraw(amount));
+        NotEnoughBalanceException notEnoughBalanceException = assertThrows(NotEnoughBalanceException.class,
+                () -> {
+                    atm.withdraw(amount);
+                });
     }
     @Then("my account balance is (.*)")
     public void my_account_balance_is(double balance) {
